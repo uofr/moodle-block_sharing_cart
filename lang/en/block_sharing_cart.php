@@ -27,18 +27,16 @@ $string['sharing_cart'] = 'Sharing Cart';
 $string['sharing_cart_help'] = '<h2 class="helpheading">Operation</h2>
 <dl style="margin-left:0.5em;">
 <dt>Copying from course to Sharing Cart</dt>
-    <dd>You will notice a small "Copy to Sharing Cart" icon which appears after each
+    <dd>You will find a <p>Copy to Sharing Cart</p> option within the <b>Edit</b> menu that appears after each
         resource or activity in a course.
-        Click on that icon to send a copy of that resource/activity into Sharing Cart.
-        Only the activity itself, without user data, will be cloned.</dd>
+        Click on that option to send a copy of the associated resource or activity into the Sharing Cart.
+        Only the resource or activity itself, without user data, will be cloned.</dd>
 <dt>Copying from Sharing Cart to course</dt>
-    <dd>Click a "Copy to course" icon in Sharing Cart and select one of target markers on each section.
-        Or click "Cancel" icon which is above those.</dd>
+    <dd>Click on the <b>Copy to course</b> icon beside the activity or resource within Sharing Cart that you\'d like to bring in to the current course. Next, select one of target markers to move the activity or resource into the associated section, or click <b>Cancel</b> to abandon the operation.</dd>
 <dt>Making folders inside Sharing Cart</dt>
-    <dd>Click a "Move into folder" icon in a Sharing Cart item.
-        An input box for new folder name will appear if there\'s no folder.
-        Or you can select an existing folder in drop-down list.
-        Which will be replaced with an input box if you click "Edit" icon.</dd>
+    <dd>Click on the <b>Move into folder</b> icon next to the desired item in the Sharing Cart.
+        An input box for new folder name will appear if there is no folder, or you can select an existing folder from the drop-down list.
+        A folder will be replaced with an input box once you click the <b>Edit</b> icon.</dd>
 </dl>';
 $string['sharing_cart:addinstance'] = 'Add a new Sharing Cart block';
 

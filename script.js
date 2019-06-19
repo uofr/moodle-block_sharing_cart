@@ -995,17 +995,18 @@ require(['jquery'], function ($)
         $.init_help_icon = function (isspeciallayout)
         {
             var helpicon = $block.find('.header-commands > .help-icon');
-
+			/*
             if (isspeciallayout)
             {
-                helpicon.attr('data-placement', 'left').find('.help-icon')
-                    .prepend($('<span/>').append(M.str.block_sharing_cart['pluginname']).addClass('sc-space-5'));
+                //helpicon.attr('data-placement', 'left').find('.help-icon')
+                //    .prepend($('<span/>').append(M.str.block_sharing_cart['pluginname']).addClass('sc-space-5'));
                 $block.find('.header-commands').parent().css('display', 'block');
             }
             else
             {
                 $block.find('.header .commands').append(helpicon);
             }
+			*/
         };
 
         /**
