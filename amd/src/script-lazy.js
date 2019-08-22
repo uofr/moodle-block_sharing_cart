@@ -1031,7 +1031,6 @@ define(['jquery'], function ($)
                 var $command = create_command(action);
                 $command.click(function(e)
                 {
-                    console.log(action);
                     if(action == 'backup'){
                         on_backup(e); 
                     } else if(action == 'movedir'){
