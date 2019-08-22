@@ -94,8 +94,9 @@ class block_sharing_cart extends block_base
 		}
 //		$this->page->requires->js('/blocks/sharing_cart/module.js');
 //		$this->page->requires->yui_module('block_sharing_cart', 'M.block_sharing_cart.init', array(), null, true);
-        $this->page->requires->jquery();
-		$this->page->requires->js('/blocks/sharing_cart/script.js');
+        // $this->page->requires->jquery();
+		// $this->page->requires->js('/blocks/sharing_cart/script.js');
+		$this->page->requires->js_call_amd('block_sharing_cart/script-lazy', 'init');
         $this->page->requires->strings_for_js(
 			array('yes', 'no', 'ok', 'cancel', 'error', 'edit', 'move', 'delete', 'movehere'),
 			'moodle'
