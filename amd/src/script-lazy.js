@@ -1174,34 +1174,38 @@ define(['jquery'], function ($)
             else
             {
                 $menu = $(this).find("div[role='menu']").first();
+                $extraItem = $menu.find('.editing_backup');
 
-                var $backup = null;
+                if(!$extraItem){
+                    var $backup = null;
 
-                if($menu.length)
-                {
-                    $backup = create_special_activity_command("backup");
-
-                    $menu.append($backup.attr("role", "menuitem"));
-
-                    if($menu.css("display") === "none")
+                    if($menu.length)
                     {
-                        $backup.append($("<span class='menu-action-text'/>").append($backup.attr('title')));
+                        $backup = create_special_activity_command("backup");
+    
+                        $menu.append($backup.attr("role", "menuitem"));
+    
+                        if($menu.css("display") === "none")
+                        {
+                            $backup.append($("<span class='menu-action-text'/>").append($backup.attr('title')));
+                        }
+                        // if($menu.find("i.fa"))
+                        // {
+                            // $backup.find("img").replaceWith($("<i class='fa fa-cloud-download icon'/>"));
+                        // }
                     }
-                    // if($menu.find("i.fa"))
-                    // {
-                        // $backup.find("img").replaceWith($("<i class='fa fa-cloud-download icon'/>"));
-                    // }
-                }
-                else
-                {
-                    $backup = create_command("backup");
-                    $activity.find(".commands").append($backup);
-                }
+                    else
+                    {
+                        $backup = create_command("backup");
+                        $activity.find(".commands").append($backup);
+                    }
+    
+                    $backup.click(function ()
+                    {
+                        on_section_backup(sectionID);
+                    });
 
-                $backup.click(function ()
-                {
-                    on_section_backup(sectionID);
-                });
+                }
             }
         });
     };
