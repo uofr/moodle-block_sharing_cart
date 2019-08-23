@@ -1149,6 +1149,9 @@ define(['jquery'], function ($)
         {
             var sectionID = $(this).find("span.inplaceeditable[data-itemtype='sectionname']").attr("data-itemid");
             var $menu = $(this).find("ul[role='menu']").first();
+            var sectionZero = $(this).attr('id') == 'section-0';
+            console.log(sectionZero);
+
 
             if($menu.length)
             {
@@ -1175,8 +1178,8 @@ define(['jquery'], function ($)
             {
                 $menu = $(this).find("div[role='menu']").first();
                 $extraItem = $menu.find('.editing_backup');
-
-                if(!$extraItem){
+                console.log('extra: ' + $extraItem);
+                if(!sectionZero){
                     var $backup = null;
 
                     if($menu.length)
