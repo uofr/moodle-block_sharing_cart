@@ -24,19 +24,27 @@
 
 $string['pluginname'] = 'Sharing Cart';
 $string['sharing_cart'] = 'Sharing Cart';
-$string['sharing_cart_help'] = '<h2 class="helpheading">Operation</h2>
-<dl style="margin-left:0.5em;">
-<dt>Copying from course to Sharing Cart</dt>
-    <dd>You will find a <p>Copy to Sharing Cart</p> option within the <b>Edit</b> menu that appears after each
-        resource or activity in a course.
-        Click on that option to send a copy of the associated resource or activity into the Sharing Cart.
-        Only the resource or activity itself, without user data, will be cloned.</dd>
+$string['sharing_cart_help'] = '<h2><span class="helpheading">Using the Sharing Cart</span> <i class="fa fa-shopping-basket ml-1 mr-1"></i></h2>
+<dl class="mt-3">
+<dt>Copying from the course to the Sharing Cart</dt>
+    <dd class="mt-4">
+<ol class="ml-0"><li>You will find a <b>Copy to Sharing Cart</b> <i alt="Shopping Basket" class="fa fa-shopping-basket icon ml-1"></i> icon beside each resource or activity in a course.</li>
+<li>Click on the <i alt="Shopping Basket" class="fa fa-shopping-basket icon ml-1 mr-1"></i> basket icon to send a copy of the associated resource or activity into the Sharing Cart.</li>
+<li>Only the resource or activity itself, will be cloned, without user data.</li></ol>
+</dd>
 <dt>Copying from Sharing Cart to course</dt>
-    <dd>Click on the <b>Copy to course</b> icon beside the activity or resource within Sharing Cart that you\'d like to bring in to the current course. Next, select one of target markers to move the activity or resource into the associated section, or click <b>Cancel</b> to abandon the operation.</dd>
+    <dd class="mt-3">
+<ol class="ml-0">
+<li>Click on the <b>Copy to course</b> <i alt="Copy to course" class="fa fa-clone ml-1 mr-1"></i> icon beside the activity or resource within Sharing Cart that you\'d like to bring in to the current course.</li>
+<li>Next, select one of the drop zone arrow indicators to move the activity or resource into the associated section, or click <b>Cancel</b> to abandon the operation.</li></ol></dd>
 <dt>Making folders inside Sharing Cart</dt>
-    <dd>Click on the <b>Move into folder</b> icon next to the desired item in the Sharing Cart.
-        An input box for new folder name will appear if there is no folder, or you can select an existing folder from the drop-down list.
-        A folder will be replaced with an input box once you click the <b>Edit</b> icon.</dd>
+    <dd class="mt-3">
+<ol class="ml-0">
+<li>Click on the <b>Move into folder</b> <i alt="Move into folder" class="fa fa-arrow-right ml-1 mr-1"></i> icon next to the desired item in the Sharing Cart.</li>
+<li>An input box for new folder name will appear if there is no folder, or you can select an existing folder from the drop-down list.</li>
+<li>A folder will be replaced with an input box once you click the <b>Edit</b> icon.</li>
+</ol>
+</dd>
 </dl>';
 $string['sharing_cart:addinstance'] = 'Add a new Sharing Cart block';
 
