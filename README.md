@@ -11,8 +11,44 @@ The "master" branch is no longer compatible with Moodle 3.2 or earlier.
 
 Change Log
 ----------
-* 3.8, release 3    2020.04.12
+* 3.8, release 15   2020.08.03
+    * Remove a Sharing Cart item if the corresponding backup file is removed from the "User private backup area"
+* 3.8, release 14   2020.07.31
+    * Add a prefix to files to let the user know this is a Sharing Cart file. Especially useful in the private backup area for the user.
+* 3.8, release 13   2020.07.30
+    * Fix an unsupported query for Postgres when create a folder name.
+    * Fix upgrade script that doesn't match the install.xml properties.
+* 3.8, release 12   2020.07.30
+    * Show a "more welcoming" error message and remove copy to course when the user does not have the required capabilities.
+* 3.8, release 11   2020.07.24
+    * Add privacy API.
+    * Fix Sharing cart folder name when copy the same section name, it shouldn't affect other user(s) that have the same folder name.
+* 3.8, release 10   2020.05.29
+    * Added fix for the spinner in the block when restoring an item from the block to a course.
+* 3.8, release 10   2020.05.18
+    * Added fix for duplicate entry in database, when two created a section in the same second. This was a random error and is NOT confirmed fixed. A log table is added to the plugin is an exception is thown in the REST api (block_sharing_cart_log).
+* 3.8, release 9    2020.05.14
+    * Limited sharing cart icon on sections, only to be added once when inplaceeditable.
+* 3.8, release 8    2020.04.29
+    * Re-added possibility to add sharing cart on site outside courses (Redirect=0).
+    * Added check, if section copy dropdown should be rendered.
+* 3.8, release 7    2020.04.27
+    * Fix bug where the active user is redirected out of a section while copying content into the course
+* 3.8, release 6    2020.03.31
+    * Quick edit bugs
+        * Fix bug where quick edit removes the backup icon for the edited section.
+        * Fix bug where the old section name is used when a section is copied to the Sharing Cart after quick edit.
+* 3.8, release 5    2020.03.30
+    * Make sure the ID of the section can be extracted when no action menu is found
     * Fixed a bug in section copy where some items in the section were skipped or copied twice. (issue #40)
+* 3.8, release 4    2020.04.03
+    * Minor css update.
+    * Added css fix, to prevent elements to overflow in firefox.
+    * Removed pluginname near help button on speciallayouts.
+    * Removed hardcoded color for commands icons.
+* 3.8, release 3    2020.03.26
+    * Fix bug with HTML entities where sections can't be copied/deleted.
+    * Only make backup of modules where deletion is not in progress.
 * 3.8, release 2    2020.03.17
     * Fixed a bug where copy sharing cart icons weren't loaded in Firefox. (issue #31)
 * 3.8, release 1    2020.03.15
@@ -145,7 +181,10 @@ Requirements
 ------------
 New Versions:  Moodle 3.3 or later
 Older Versions: Moodle 2.3.1 or later, with AJAX enabled
-
+* Capabilities
+    - moodle/restore:restoreactivity
+    - moodle/restore:restorecourse
+    
 Supports
 ------------
 Supported course formats
