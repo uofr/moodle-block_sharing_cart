@@ -18,14 +18,14 @@
  *  Sharing Cart
  *
  * @package    block_sharing_cart
- * @copyright  2020 (c) Don Hinkelman
+ * @copyright  2020 (c) Don Hinkelman and others
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version = 2020080300;
+$plugin->version = 2020090100;
 $plugin->requires = 2018120300; // Moodle 3.6
 $plugin->component = 'block_sharing_cart';
-$plugin->release = '3.8, release 15';
+$plugin->release = '3.8, release 17';
 $plugin->maturity = MATURITY_STABLE;
