@@ -18,7 +18,7 @@
  *  Sharing Cart block
  *
  * @package    block_sharing_cart
- * @copyright  2017 (C) VERSION2, INC.
+ * @copyright  2021 (C) Don Hinkelman and others
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -48,6 +48,7 @@ class block_sharing_cart extends block_base {
         return array(
                 'all' => false,
                 'course' => true,
+                'site' => true
         );
     }
 
@@ -59,14 +60,19 @@ class block_sharing_cart extends block_base {
         return true;
     }
 
-    /**
-     *  Get the block content
-     *
-     * @return object|string
-     * @global object $USER
-     */
+	/**
+	 *  Get the block content
+	 *
+	 * @return object|string
+	 *
+	 * @throws coding_exception
+	 * @throws dml_exception|moodle_exception
+	 * @global object $USER
+	 */
     public function get_content() {
-        global $USER, $COURSE;
+        global $USER, $COURSE, $PAGE;
+
+        $section_id = optional_param('section', 0, PARAM_INT);
 
         $context = context_course::instance($this->page->course->id);
 
@@ -80,6 +86,8 @@ class block_sharing_cart extends block_base {
 
         $controller = new controller();
         $html = $controller->render_tree($USER->id);
+
+        $controller->delete_unused_sections($this->page->course->id);
 
         // Fetching all sections for current course.
         $sectionsHandler = new section();
@@ -97,7 +105,7 @@ class block_sharing_cart extends block_base {
             $this->page->requires->css('/blocks/sharing_cart/custom.css');
         }
         $this->page->requires->jquery();
-        $this->page->requires->js('/blocks/sharing_cart/script.js');
+		$this->page->requires->js_call_amd('block_sharing_cart/script', 'init');
         $this->page->requires->strings_for_js(
                 array('yes', 'no', 'ok', 'cancel', 'error', 'edit', 'move', 'delete', 'movehere'),
                 'moodle'
@@ -107,29 +115,34 @@ class block_sharing_cart extends block_base {
                         'confirm_backup', 'confirm_backup_section', 'confirm_userdata',
                         'confirm_userdata', 'confirm_delete', 'clicktomove', 'folder_string',
                         'activity_string', 'delete_folder', 'modal_checkbox',
-                        'modal_confirm_backup', 'modal_confirm_delete'
+                        'modal_confirm_backup', 'modal_confirm_delete', 'backup_heavy_load_warning_message'
                 ),
                 __CLASS__
         );
 
-        // Creating with sections that are not empty.
-        $sections_dropdown = '';
-        foreach ($sections as $section) {
-            $sectionname = $section->name;
-            if ($section->sequence !== '') {
-                if (!$section->name) {
-                    $sectionname = get_string('sectionname', "format_$COURSE->format") . ' ' . $section->section;
-                }
-                $sections_dropdown .= "
+        $footer = '';
+        $page_format = $PAGE->course->format;
+
+        // Check if page format is not site. (Location)
+        if ($page_format !== 'site'){
+            // Creating with sections that are not empty.
+            $sections_dropdown = '';
+            foreach ($sections as $section) {
+                $sectionname = $section->name;
+                if ($section->sequence !== '') {
+                    if (!$section->name) {
+                        $sectionname = get_string('sectionname', "format_$COURSE->format") . ' ' . $section->section;
+                    }
+                    $sections_dropdown .= "
                     <option data-section-id='$section->id' data-section-number='$section->section' data-course-id='$section->course' data-section-name='$sectionname'>
                         $sectionname
                     </option>
                 ";
+                }
             }
-        }
 
-        $footer = "
-		    <form>
+            $footer = "
+		    <form id=\"copy-section-form\" data-in-section=\"" . ($section_id ? 1 : 0) . "\">
 		        <select class='custom-select section-dropdown'>
 		            $sections_dropdown
 		        </select>
@@ -138,6 +151,7 @@ class block_sharing_cart extends block_base {
 		        </a>
             </form>
 		";
+        }
         $footer .= '
                     <div style="display:none;">
                     <div class="header-commands">' . $this->get_header() . '</div>

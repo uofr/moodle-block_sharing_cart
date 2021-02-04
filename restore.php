@@ -38,6 +38,7 @@ if ($directory) {
 }
 $courseid = required_param('course', PARAM_INT);
 $sectionnumber = required_param('section', PARAM_INT);
+$in_section = optional_param('in_section', 0, PARAM_INT);
 
 if ($courseid == SITEID) {
     $returnurl = new moodle_url('/');
@@ -45,7 +46,11 @@ if ($courseid == SITEID) {
     $returnurl = new moodle_url('/course/view.php', array('id' => $courseid));
 }
 
-$returnurl .= '#section-' . $sectionnumber;
+if ($in_section) {
+    $returnurl .= '&section=' . $sectionnumber;
+} else {
+    $returnurl .= '#section-' . $sectionnumber;
+}
 
 require_login($courseid);
 
@@ -65,6 +70,10 @@ try {
             $path = substr($path, 1);
         }
 
+        GLOBAL $DB;
+        $items = $DB->get_records('block_sharing_cart', array('tree' => $path));
+        $items_count = count($items);
+
         if ($use_sc_section < 0) {
             $sections = $controller->get_path_sections($path, $courseid, $sectionnumber);
             if (count($sections) > 0) {
@@ -75,16 +84,22 @@ try {
                 $PAGE->set_title(get_string('pluginname', 'block_sharing_cart') . ' - ' .
                         get_string('restore', 'block_sharing_cart'));
                 $PAGE->set_heading(get_string('restore', 'block_sharing_cart'));
+
+                $urlchunk = '#section-';
+                if ($in_section) {
+                    $urlchunk = '&section=';
+                }
+
                 $PAGE->navbar
                         ->add(get_section_name($courseid, $sectionnumber),
-                                new moodle_url("/course/view.php?id={$courseid}#section-{$sectionnumber}"))
+                                new moodle_url("/course/view.php?id={$courseid}{$urlchunk}{$sectionnumber}"))
                         ->add(get_string('pluginname', 'block_sharing_cart'))
                         ->add(get_string('restore', 'block_sharing_cart'));
 
                 echo $OUTPUT->header();
                 echo $OUTPUT->heading(get_string('section_name_conflict', 'block_sharing_cart'));
 
-                $form = new section_title_form($directory, $path, $courseid, $sectionnumber, $sections);
+                $form = new section_title_form($directory, $path, $courseid, $sectionnumber, $sections, $items_count);
                 $form->display();
 
                 echo $OUTPUT->footer();

@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+use block_sharing_cart\mysql_logger;
 
 /**
  *  Sharing Cart - REST API
@@ -26,13 +27,15 @@ use block_sharing_cart\controller;
 use block_sharing_cart\exception as sharing_cart_exception;
 use block_sharing_cart\section;
 
-require_once '../../config.php';
+require_once __DIR__ . '/../../config.php';
 
 try {
     $controller = new controller();
 
     switch (required_param('action', PARAM_TEXT)) {
         case 'render_tree':
+            $courseid = required_param('courseid', PARAM_INT);
+            $PAGE->set_course(get_course($courseid));
             $PAGE->set_context(\context_user::instance($USER->id));
             echo $controller->render_tree($USER->id);
             exit;
@@ -53,8 +56,8 @@ try {
         case 'backup':
             $cmid = required_param('cmid', PARAM_INT);
             $userdata = required_param('userdata', PARAM_BOOL);
-            $course = required_param('course', PARAM_INT);
-            $controller->backup($cmid, $userdata, $course);
+            $courseid = required_param('courseid', PARAM_INT);
+            $controller->backup($cmid, $userdata, $courseid);
             exit;
         case 'backup_section':
             $sectionid = optional_param('sectionid', null, PARAM_INT);
@@ -67,8 +70,8 @@ try {
                 $sectionname = $section->name;
             }
             $userdata = required_param('userdata', PARAM_BOOL);
-            $course = required_param('course', PARAM_INT);
-            $controller->backup_section($sectionid, $sectionname, $userdata, $course);
+            $courseid = required_param('courseid', PARAM_INT);
+            $controller->backup_section($sectionid, $sectionname, $userdata, $courseid);
             exit;
         case 'movedir':
             $item_id = required_param('item_id', PARAM_INT);
@@ -98,16 +101,31 @@ try {
     throw new sharing_cart_exception('invalidoperation');
 
 } catch (Exception $ex) {
-    header('HTTP/1.1 400 Bad Request');
+
+	header('HTTP/1.1 400 Bad Request');
+
     $json = array(
-            'message' => $ex->getMessage(),
+        'message' => $ex->getMessage(),
     );
+
     if (!empty($CFG->debug) && $CFG->debug >= DEBUG_DEVELOPER) {
         $json += array(
-                'file' => substr($ex->getFile(), strlen($CFG->dirroot)),
-                'line' => $ex->getLine(),
-                'trace' => format_backtrace($ex->getTrace(), true),
+            'file' => substr($ex->getFile(), strlen($CFG->dirroot)),
+            'line' => $ex->getLine(),
+            'trace' => format_backtrace($ex->getTrace(), true),
         );
     }
+
+	/**
+	 * If logger exists - we log some stuff
+	 */
+    if(class_exists(mysql_logger::class)){
+    	try{
+		    $logger = new mysql_logger();
+		    $logger->log($ex->getMessage(), $ex);
+	    }
+	    catch(\Exception $e){}
+    }
+
     echo json_encode($json);
 }
