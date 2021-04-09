@@ -24,28 +24,22 @@
 
 $string['pluginname'] = 'Sharing Cart';
 $string['sharing_cart'] = 'Sharing Cart';
-$string['sharing_cart_help'] = '<h2><span class="helpheading">Using the Sharing Cart</span> <i class="fa fa-shopping-basket ml-1 mr-1"></i></h2>
-<dl class="mt-3">
-<dt>Copying from the course to the Sharing Cart</dt>
-    <dd class="mt-4">
-<ol class="ml-0"><li>You will find a <b>Copy to Sharing Cart</b> <i alt="Shopping Basket" class="fa fa-shopping-basket icon ml-1"></i> icon beside each resource or activity in a course.</li>
-<li>Click on the <i alt="Shopping Basket" class="fa fa-shopping-basket icon ml-1 mr-1"></i> basket icon to send a copy of the associated resource or activity into the Sharing Cart.</li>
-<li>Only the resource or activity itself, will be cloned, without user data.</li></ol>
-</dd>
-<dt>Copying from Sharing Cart to course</dt>
-    <dd class="mt-3">
-<ol class="ml-0">
-<li>Click on the <b>Copy to course</b> <i alt="Copy to course" class="fa fa-clone ml-1 mr-1"></i> icon beside the activity or resource within Sharing Cart that you\'d like to bring in to the current course.</li>
-<li>Next, select one of the drop zone arrow indicators to move the activity or resource into the associated section, or click <b>Cancel</b> to abandon the operation.</li></ol></dd>
-<dt>Making folders inside Sharing Cart</dt>
-    <dd class="mt-3">
-<ol class="ml-0">
-<li>Click on the <b>Move into folder</b> <i alt="Move into folder" class="fa fa-arrow-right ml-1 mr-1"></i> icon next to the desired item in the Sharing Cart.</li>
-<li>An input box for new folder name will appear if there is no folder, or you can select an existing folder from the drop-down list.</li>
-<li>A folder will be replaced with an input box once you click the <b>Edit</b> icon.</li>
-</ol>
-</dd>
-</dl>';
+$string['sharing_cart_help'] =
+'<div>
+    <strong>Copying from course to Sharing Cart</strong>
+        <p>You will notice a small "Copy to Sharing Cart" icon which appears after each
+            resource or activity in a course.
+            Click on that icon to send a copy of that resource/activity into Sharing Cart.
+            Only the activity itself, without user data, will be cloned.</p>
+    <strong>Copying from Sharing Cart to course</strong>
+        <p>Click a "Copy to course" icon in Sharing Cart and select one of target markers on each section.
+            Or click "Cancel" icon which is above those.</p>
+    <strong>Making folders inside Sharing Cart</strong>
+        <p>Click a "Move into folder" icon in a Sharing Cart item.
+            An input box for new folder name will appear if there\'s no folder.
+            Or you can select an existing folder in drop-down list.
+            Which will be replaced with an input box if you click "Edit" icon.</p>
+</div>';
 $string['sharing_cart:addinstance'] = 'Add a new Sharing Cart block';
 
 $string['backup'] = 'Copy to Sharing Cart';
@@ -66,6 +60,7 @@ $string['confirm_delete'] = 'Are you sure you want to delete?';
 $string['confirm_delete_selected'] = 'Are you sure you want to delete all selected items?';
 $string['inprogess_pleasewait'] = 'Please wait…';
 $string['copy_section'] = 'Copy section';
+$string['label_image_replaced_text'] = ' (Label: Image)';
 
 $string['settings:userdata_copyable_modtypes'] = 'User data copyable module types';
 $string['settings:userdata_copyable_modtypes_desc'] = 'While copying an activity into the Sharing Cart,
@@ -119,3 +114,7 @@ $string['privacy:metadata:block_sharing_cart:modtext'] = 'The title of the activ
 $string['privacy:metadata:block_sharing_cart:ctime'] = 'Created time';
 $string['privacy:metadata:block_sharing_cart:tree'] = 'The title of sharing cart folder that display in the block';
 $string['privacy:metadata:block_sharing_cart:weight'] = 'Order of items, sorting in ascending order';
+$string['privacy:metadata:block_sharing_cart_plugins'] = 'Sharing cart plugins data is stored here';
+$string['privacy:metadata:block_sharing_cart_plugins:plugin'] = 'The name of the plugin';
+$string['privacy:metadata:block_sharing_cart_plugins:userid'] = 'The ID of user';
+$string['privacy:metadata:block_sharing_cart_plugins:data'] = 'Sharing cart plugins data';
