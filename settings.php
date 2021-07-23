@@ -18,13 +18,18 @@
  *  Sharing Cart
  *
  * @package    block_sharing_cart
- * @copyright  2017 (C) VERSION2, INC.
+ * @copyright  2021 (C) Don Hinkelman and others
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
 
 require_once __DIR__ . '/lib/settingslib.php';
+
+/**
+ * @global admin_root $ADMIN
+ * @global admin_settingpage $settings
+ */
 
 if ($ADMIN->fulltree) {
     $settings->add(
