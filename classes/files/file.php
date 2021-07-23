@@ -22,30 +22,52 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace block_sharing_cart;
+namespace block_sharing_cart\files;
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- *  Scoped closure
- */
-class scoped {
-    /** @var callable */
-    private $callback;
 
-    /**
-     *  Constructor
-     *
-     * @param callable $callback
-     */
-    public function __construct(callable $callback) {
-        $this->callback = $callback;
+class file
+{
+    /** @var object|\stored_file */
+    private $file;
+
+    public function __construct($file){
+        $this->file = $file;
     }
 
     /**
-     *  Destructor
+     * @return int
      */
-    public function __destruct() {
-        call_user_func($this->callback);
+    public function get_id(): int {
+        return (int)$this->file->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function get_user_id(): int {
+        return (int)$this->file->userid;
+    }
+
+    /**
+     * @return string
+     */
+    public function get_area(): string {
+        return $this->file->filearea ?? '';
+    }
+
+    /**
+     * @return string
+     */
+    public function get_name(): string {
+        return $this->file->filename ?? '';
+    }
+
+    /**
+     * @return bool
+     */
+    public function is_backup_file(): bool {
+        return $this->get_area() === 'backup';
     }
 }
