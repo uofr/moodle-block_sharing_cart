@@ -66,11 +66,12 @@ define(['jquery', 'core/modal_factory', 'core/modal_events'], function($, ModalF
                     if (obj.checkbox) {
                         obj.body +=
                             '<div class="modal-checbox-wrapper">' +
-                            '<input type="checkbox" id="modal-checkbox" class="modal-checkbox">' +
+                            '<input type="checkbox" id="modal-checkbox" class="modal-checkbox" checked>' +
                             '<label for="modal-checkbox">' + str('modal_checkbox') + '</label>' +
                             '</div>';
                     }
 
+                    obj.body += '<p class="alert alert-danger mt-3">' + str('backup_heavy_load_warning_message') + '</p>';
 
                     ModalFactory.create({
                         type: ModalFactory.types.SAVE_CANCEL,
@@ -707,7 +708,7 @@ define(['jquery', 'core/modal_factory', 'core/modal_events'], function($, ModalF
                             }
                         } else {
                             var $container = $('.course-content');
-                            $container.prepend($clipboard);
+                            $container.one('*').before($clipboard);
                             $container.find(M.course.format.get_section_wrapper(null)).each(function(index, sectionDOM) {
                                 var $section = $(sectionDOM);
                                 var section = $section.attr('id').match(/(\d+)$/)[1];
@@ -969,10 +970,7 @@ define(['jquery', 'core/modal_factory', 'core/modal_events'], function($, ModalF
                             "courseid": courseId,
                         };
 
-                    var body_html = '<p class="alert alert-danger mt-3">' + str('backup_heavy_load_warning_message') +
-                        '</p>' + str('confirm_backup_section');
-
-                    on_backup_modal(data, sectionName, body_html, true);
+                    on_backup_modal(data, sectionName, str('confirm_backup_section'), true);
                 };
 
                 /**
@@ -1040,10 +1038,6 @@ define(['jquery', 'core/modal_factory', 'core/modal_events'], function($, ModalF
 
                     // Initialize items
                     $block.find('li.activity').each(function(index, item) {
-                        if($(item).attr('data-disable-copy') == 1) {
-                            add_actions(item, ['movedir', 'move', 'delete']);
-                            return;
-                        }
                         add_actions(item, activity_actions);
                     });
 

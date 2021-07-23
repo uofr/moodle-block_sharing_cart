@@ -18,7 +18,7 @@
  *  Sharing Cart block
  *
  * @package    block_sharing_cart
- * @copyright  2021 (C) Don Hinkelman and others
+ * @copyright  2017 (C) VERSION2, INC.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -40,11 +40,11 @@ defined('MOODLE_INTERNAL') || die();
  * Class block_sharing_cart
  */
 class block_sharing_cart extends block_base {
-    public function init(): void {
+    public function init() {
         $this->title = get_string('pluginname', __CLASS__);
     }
 
-    public function applicable_formats(): array {
+    public function applicable_formats() {
         return array(
                 'all' => false,
                 'course' => true,
@@ -52,7 +52,11 @@ class block_sharing_cart extends block_base {
         );
     }
 
-    public function has_config(): bool {
+    public function instance_can_be_docked() {
+        return false; // AJAX won't work with Dock
+    }
+
+    public function has_config() {
         return true;
     }
 
@@ -142,7 +146,7 @@ class block_sharing_cart extends block_base {
 		        <select class='custom-select section-dropdown'>
 		            $sections_dropdown
 		        </select>
-		        <a href='javascript:void(0)' class='copy_section' title='".get_string('copy_section_title', __CLASS__)."'>
+		        <a href='javascript:void(0)' class='copy_section' title='get_string('sectionname', \"format_$COURSE->format\") . ' ' . $section->section)'>
 		            <input id='copy' type='button' class='btn btn-primary' value='" . get_string('copy_section', __CLASS__) . "'>
 		        </a>
             </form>
@@ -160,10 +164,8 @@ class block_sharing_cart extends block_base {
      *  Get the block header
      *
      * @return string
-     * @throws coding_exception
-     * @throws moodle_exception
      */
-    private function get_header(): string {
+    private function get_header() {
         // link to bulkdelete
         $alt = get_string('bulkdelete', __CLASS__);
         $url = new moodle_url('/blocks/sharing_cart/bulkdelete.php', array('course' => $this->page->course->id));
@@ -178,12 +180,14 @@ class block_sharing_cart extends block_base {
      * @param moodle_url $url
      * @return string
      */
-    private function get_bulk_delete(string $alt, moodle_url $url): string {
-        return '
+    private function get_bulk_delete($alt, $url) {
+        $bulkdelete = '
 		        <a class="editing_bulkdelete" title="' . s($alt) . '" href="' . s($url) . '">
 		        <i class="bulk-icon icon fa fa-times-circle" alt="' . s($alt) . '" /></i>
 		        </a>
 		        ';
+
+        return $bulkdelete;
     }
 
     /**
@@ -191,7 +195,7 @@ class block_sharing_cart extends block_base {
      *
      * @return string
      */
-    private function get_help_icon(): string {
+    private function get_help_icon() {
         global $OUTPUT;
         $helpicon = $OUTPUT->help_icon('sharing_cart', __CLASS__);
         $helpicon = str_replace('class="', 'class="help-icon ', $helpicon);
@@ -203,8 +207,25 @@ class block_sharing_cart extends block_base {
      *
      * @return boolean
      */
-    private function is_special_version(): bool {
-        return version_compare(moodle_major_version(), '3.2') === 1;
+    private function is_special_version() {
+        return moodle_major_version() >= 3.2;
     }
 
+    /**
+     *  Get the block content for no-AJAX
+     *
+     * @return string
+     * @global core_renderer $OUTPUT
+     */
+    private function get_content_noajax() {
+        global $OUTPUT;
+
+        $html = '<div class="error">' . get_string('requireajax', __CLASS__) . '</div>';
+        if (has_capability('moodle/site:config', context_system::instance())) {
+            $url = new moodle_url('/admin/settings.php?section=ajax');
+            $link = '<a href="' . s($url) . '">' . get_string('ajaxuse') . '</a>';
+            $html .= '<div>' . $OUTPUT->rarrow() . ' ' . $link . '</div>';
+        }
+        return $html;
+    }
 }

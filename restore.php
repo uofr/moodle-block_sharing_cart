@@ -27,8 +27,6 @@ use block_sharing_cart\section_title_form;
 
 require_once '../../config.php';
 
-global $OUTPUT, $PAGE;
-
 $directory = required_param('directory', PARAM_BOOL);
 $id = null;
 $path = null;
@@ -72,12 +70,12 @@ try {
             $path = substr($path, 1);
         }
 
-        GLOBAL $DB, $USER;
-        $items = $DB->get_records('block_sharing_cart', array('tree' => $path, 'userid' => $USER->id));
+        GLOBAL $DB;
+        $items = $DB->get_records('block_sharing_cart', array('tree' => $path));
         $items_count = count($items);
 
         if ($use_sc_section < 0) {
-            $sections = $controller->get_path_sections($path);
+            $sections = $controller->get_path_sections($path, $courseid, $sectionnumber);
             if (count($sections) > 0) {
                 $dest_section = $DB->get_record('course_sections', array('course' => $courseid, 'section' => $sectionnumber));
 

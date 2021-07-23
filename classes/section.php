@@ -20,13 +20,13 @@ class section {
     /**
      * Get the section ID
      *
-     * @param int $course_id
-     * @param int $section_number
+     * @param $course_id
+     * @param $section_number
      *
      * @return mixed
      * @throws \Exception
      */
-    public static function get(int $course_id, int $section_number) {
+    public static function get($course_id, $section_number) {
         global $DB;
 
         if (empty($course_id)) {
@@ -50,13 +50,12 @@ class section {
     }
 
     /**
-     * @param int $course_id
-     * @return \section_info[]
+     * @param $course_id
+     * @return $this
      * @throws \moodle_exception
      */
-    public function all(int $course_id): array {
+    public function all($course_id) {
         get_fast_modinfo($course_id, 0, true);
-        /** @var \course_modinfo $sections */
         $sections = get_fast_modinfo($course_id);
         return $sections->get_section_info_all();
     }

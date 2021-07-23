@@ -12,7 +12,7 @@ class block_sharing_cart_controller_testcase extends advanced_testcase {
     /**
      * This method is called before each test.
      */
-    protected function setUp(): void {
+    protected function setUp() {
         $this->resetAfterTest();
     }
 

@@ -30,10 +30,10 @@ defined('MOODLE_INTERNAL') || die();
  *  Sharing Cart file storage manager
  */
 class storage {
-    public const COMPONENT = 'user';
-    public const FILEAREA = 'backup';
-    private const ITEMID = 0;
-    private const FILEPATH = '/';
+    const COMPONENT = 'user';
+    const FILEAREA = 'backup';
+    const ITEMID = 0;
+    const FILEPATH = '/';
 
     /** @var \file_storage */
     private $storage;
@@ -55,10 +55,8 @@ class storage {
      *  Copy a stored file into storage
      *
      * @param \stored_file $file
-     * @throws \file_exception
-     * @throws \stored_file_creation_exception
      */
-    public function copy_from(\stored_file $file): void {
+    public function copy_from(\stored_file $file) {
         $filerecord = (object) array(
                 'contextid' => $this->context->id,
                 'component' => self::COMPONENT,
@@ -75,7 +73,7 @@ class storage {
      * @param string $filename
      * @return \stored_file
      */
-    public function get(string $filename): \stored_file {
+    public function get($filename) {
         return $this->storage->get_file($this->context->id,
                 self::COMPONENT, self::FILEAREA, self::ITEMID, self::FILEPATH,
                 $filename);
@@ -87,7 +85,7 @@ class storage {
      * @param string $filename
      * @return boolean
      */
-    public function delete(string $filename): bool {
+    public function delete($filename) {
         $file = $this->get($filename);
         return $file && $file->delete();
     }
