@@ -1,9 +1,12 @@
 Sharing Cart
 ============
 
-Version 3.11, release 5 - 2022.12.20
+**Sharing cart basket icon now visible by default**  To drag item directly into your sharing cart, change the settings. 
+The old way of clicking the basket icon is now default. - Users who have already upgraded to 4.0, release 1 will need to manually change it back to the old way in settings.
 
-The "MOODLE_311_STABLE" branch requires Moodle 3.11.4 or newer.
+Version 4.0, release 4 - 2022.12.20
+
+The "master" branch requires Moodle 3.11.4 or newer.
 
 * Moodle 3.2 => "MOODLE_32_STABLE" branch
 * Moodle 2.2 => "MOODLE_22_STABLE" branch
@@ -13,13 +16,22 @@ Warning: PHP versions 7.2 and older are deprecated, and will cause problems, unr
 
 Change Log
 ----------
-* 3.11, release 5 2022.12.20
+* 4.0, release 4 2022.12.20
   * Fixed issue where userdata would not backup/restore correctly
-* 3.11, release 4 2022.12.13
+* 4.0, release 3 2022.12.13
   * Fix issue #118
   * This version and up now requires Moodle 3.11.4
-* 3.11, release 3 2022.09.12
+* 4.0, release 2 2022.10.14
+  * Old way of clicking on basket icon is restored. New way of direct drag-and-drop is optional, and changeable in settings.
+  * Added indication on basket icon when hovering and cancelling/submitting activities/sections
+  * Changed spinner to shaking basket icon
+* 4.0, release 1 2022.09.23
+  * Confirmed compatibility with Moodle 4.0
+* 3.11, release 4 2022.09.16
   * Added 3 new events to add custom section backup/restore functionality
+  * Added the ability to drag and drop items/sections into the cart and the basket icon
+* 3.11, release 3 2022.09.13
+  * Fixed bug where the basket icon does not appear in the flexible sections course format.
 * 3.11, release 2 2022.08.02
   * Sharing cart now purges all cache hooked on the 'changesincourse' event when overwriting a section
   * Fixed sharing cart looking at invisible modules, where error (invalid id for course module) would occur.

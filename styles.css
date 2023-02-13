@@ -123,3 +123,37 @@
 .editing.format-grid .course-content h3.sectionname .add-to-sharing-cart {
     padding-top: 15px;
 }
+
+.block_sharing_cart div.dragging_item {
+    animation: drop_area ease-in-out .5s forwards;
+    filter: blur(2px);
+}
+
+@keyframes drop_area {
+    100% {
+        background-color: lightslategrey;
+    }
+}
+
+.sharing_cart_basket.drag_over {
+    filter: brightness(.8);
+}
+
+.sharing_cart_basket.shake_basket {
+    animation: shake_basket infinite 3s linear !important;
+}
+
+@keyframes shake_basket {
+    0% {
+        transform: rotate(0deg);
+    }
+    10% {
+        transform: rotate(-30deg);
+    }
+    20% {
+        transform: rotate(30deg);
+    }
+    30%, 100% {
+        transform: rotate(0deg);
+    }
+}
