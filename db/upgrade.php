@@ -464,7 +464,6 @@ function xmldb_block_sharing_cart_upgrade($oldversion = 0): bool
             $dbman->drop_table($table);
         }
 
-        upgrade_block_savepoint(true, 2024072900, 'sharing_cart');
     }
 
     if ($oldversion < 2024072900) {
