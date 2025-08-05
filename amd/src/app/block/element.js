@@ -5,6 +5,12 @@ import {get_string, get_strings} from "core/str";
 import Ajax from "core/ajax";
 import Notification from "core/notification";
 
+/**
+ * @typedef BackupSettings
+ * @property {boolean} users - Whether to backup user data.
+ * @property {boolean} anonymize - Whether to anonymize user data.
+ */
+
 export default class BlockElement {
     /**
      * @type {BaseFactory}
@@ -206,7 +212,6 @@ export default class BlockElement {
 
             this.getItemCheckboxes().forEach((checkbox) => {
                 checkbox.classList.remove('d-none');
-                checkbox.checked = false;
             });
         });
 
@@ -216,11 +221,13 @@ export default class BlockElement {
             bulkDeleteButton.disabled = true;
             enableBulkDeleteButton.classList.remove('d-none');
             selectAllContainer.classList.add('d-none');
+            this.#bulkDeleteEnabled = false;
 
             this.getItemCheckboxes().forEach((checkbox) => {
                 checkbox.classList.add('d-none');
                 checkbox.checked = false;
             });
+            this.updateSelectAllState();
         });
 
         bulkDeleteButton.addEventListener('click', async () => {
@@ -417,11 +424,45 @@ export default class BlockElement {
     }
 
     /**
-     * @param {String} itemName
-     * @param {CallableFunction} onSave
+     * @param {number} courseModuleId
+     * @param {string} name
+     * @param {(BackupSettings) => void} onSave
+     * @returns {Promise<Modal>}
+     */
+    async createBackupCourseModuleToSharingCartModal(courseModuleId, name, onSave) {
+        return this.createBackupItemToSharingCartModal('module', courseModuleId, name, onSave);
+    }
+
+    /**
+     * @param {number} sectionId
+     * @param {string} name
+     * @param {(BackupSettings) => void} onSave
+     * @returns {Promise<Modal>}
+     */
+    async createBackupSectionToSharingCartModal(sectionId, name, onSave) {
+        return this.createBackupItemToSharingCartModal('section', sectionId, name, onSave);
+    }
+
+    /**
+     * @param {string} backupType
+     * @param {number} itemId
+     * @returns {boolean}
+     */
+    #hasQuiz(backupType, itemId) {
+        if (backupType === 'section') {
+            return this.#course.hasSectionCourseModuleType(itemId, 'quiz');
+        }
+        return this.#course.isCourseModuleTypeById(itemId, 'quiz');
+    }
+
+    /**
+     * @param {string} backupType
+     * @param {number} itemId
+     * @param {string} itemName
+     * @param {(BackupSettings) => void} onSave
      * @return {Promise<Modal>}
      */
-    async createBackupItemToSharingCartModal(itemName, onSave) {
+    async createBackupItemToSharingCartModal(backupType, itemId, itemName, onSave) {
         const strings = await get_strings([
             {
                 key: 'backup_item',
@@ -432,7 +473,7 @@ export default class BlockElement {
                 component: 'block_sharing_cart',
             },
             {
-                key: 'backup',
+                key: 'copy',
                 component: 'block_sharing_cart',
             },
             {
@@ -444,6 +485,7 @@ export default class BlockElement {
         const {html, js} = await this.#baseFactory.moodle().template().renderTemplate(
             'block_sharing_cart/modal/backup_to_sharing_cart_modal_body',
             {
+                has_quiz: this.#hasQuiz(backupType, itemId),
                 show_user_data_backup: this.#canBackupUserdata,
                 show_anonymize_user_data: this.#canBackupUserdata && this.#canAnonymizeUserdata,
             }
@@ -466,7 +508,6 @@ export default class BlockElement {
         modal.getRoot().on(ModalEvents.save, () => {
             const modalUserdataCheckbox = document.getElementById('modal-userdata-checkbox');
             const modalAnonymizeCheckbox = document.getElementById('modal-anonymize-checkbox');
-
             onSave({
                 users: modalUserdataCheckbox?.checked ?? false,
                 anonymize: modalAnonymizeCheckbox?.checked ?? false
@@ -501,7 +542,7 @@ export default class BlockElement {
             return;
         }
 
-        const modal = await this.createBackupItemToSharingCartModal(sectionName, (settings) => {
+        const saver = (settings) => {
             Ajax.call([{
                 methodname: 'block_sharing_cart_backup_section_into_sharing_cart',
                 args: {
@@ -515,8 +556,13 @@ export default class BlockElement {
                     Notification.exception(data);
                 }
             }]);
-        });
+        };
 
+        const modal = await this.createBackupSectionToSharingCartModal(
+            sectionId,
+            sectionName,
+            saver
+        );
         await modal.show();
     }
 
@@ -525,8 +571,7 @@ export default class BlockElement {
      */
     async addCourseModuleBackupToSharingCart(courseModuleId) {
         const courseModuleName = this.#course.getCourseModuleName(courseModuleId);
-
-        const modal = await this.createBackupItemToSharingCartModal(courseModuleName, (settings) => {
+        const saver = (settings) => {
             Ajax.call([{
                 methodname: 'block_sharing_cart_backup_course_module_into_sharing_cart',
                 args: {
@@ -540,7 +585,12 @@ export default class BlockElement {
                     Notification.exception(data);
                 }
             }]);
-        });
+        };
+        const modal = await this.createBackupCourseModuleToSharingCartModal(
+            courseModuleId,
+            courseModuleName,
+            saver
+        );
         await modal.show();
     }
 
@@ -667,8 +717,8 @@ export default class BlockElement {
                 component: 'block_sharing_cart',
             },
             {
-                key: 'import',
-                component: 'core',
+                key: 'copy',
+                component: 'block_sharing_cart',
             },
             {
                 key: 'cancel',
@@ -677,11 +727,13 @@ export default class BlockElement {
         ]);
 
         const sectionName = this.#course.getSectionName(sectionId);
+        const divElement = document.getElementById('block_sharing_cart');
+        const pageContextId = divElement.getAttribute('data-contextid');
 
         const {html, js} = await this.#baseFactory.moodle().template().renderFragment(
             'block_sharing_cart',
             'item_restore_form',
-            1,
+            pageContextId,
             {
                 item_id: item.getItemId()
             }
