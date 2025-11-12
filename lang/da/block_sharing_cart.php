@@ -8,6 +8,7 @@ $string['items'] = 'Backups';
 $string['restores'] = 'Kopieringer i kø';
 $string['no_items'] = 'Ingen backups.<br><br>Træk og slip aktiviteter eller sektioner ind i delingskurven eller klik på <i class="fa fa-shopping-basket"></i> ikonet, for at tilføje elementer til Delingskurven.';
 $string['no_restores'] = '<div class="no-restores text-muted">Ingen kopieringer i kø.<br><br>Klik på <i class="fa fa-clone"></i> ikonet for at kopiere elementer fra Delingskurven til kurset.</div>';
+$string['nopermissions'] = 'Du har ikke tilladelse til at lave backup eller gendanne elementer i dette kursus. Kontakt venligst din administrator, hvis du mener, dette er en fejl.';
 
 $string['module_is_disabled_on_site'] = 'Dette modul er blevet deaktiveret på siden, og du vil ikke kunne kopiere det.';
 
@@ -57,6 +58,8 @@ $string['no_course_modules_in_section_description'] = 'Denne sektion indeholder 
 $string['copy_section'] = 'Kopiér sektion';
 
 $string['you_may_need_to_reload_the_course_warning'] = 'Element(er) indsat. Du skal muligvis genindlæse kursussiden for at se ændringerne afspejlet korrekt.';
+
+$string['you_do_not_have_permission_to_configure_restores'] = 'Du har ikke tilladelse til at konfigurere gendannelser. Kontakt venligst din administrator, hvis du mener, dette er en fejl.';
 
 // Capabilities
 $string['sharing_cart:addinstance'] = 'Tilføj en ny Delingskurv blok';

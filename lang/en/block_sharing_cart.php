@@ -51,6 +51,7 @@ $string['items'] = 'Items';
 $string['restores'] = 'Copies queued';
 $string['no_items'] = 'No items.<br><br>Drag & drop activities or sections into the sharing cart or click the <i class="fa fa-shopping-basket"></i> icon, to add items to the Sharing Cart.';
 $string['no_restores'] = '<div class="no-restores text-muted">No copies queued.<br><br>Click the <i class="fa fa-clone"></i> icon to copy items from the Sharing Cart to the course.</div>';
+$string['nopermissions'] = 'You do not have permission to backup or restore items in this course. Please contact your administrator if you think this is a mistake.';
 
 $string['module_is_disabled_on_site'] = 'This module have been disabled on the site, you will be unable to copy it.';
 
@@ -100,6 +101,8 @@ $string['no_course_modules_in_section_description'] = 'This section does not con
 $string['copy_section'] = 'Copy section';
 
 $string['you_may_need_to_reload_the_course_warning'] = 'Element(s) inserted. You may need to reload the course page to see the changes reflected correctly.';
+
+$string['you_do_not_have_permission_to_configure_restores'] = 'You do not have permission to configure restores. Please contact your administrator if you think this is a mistake.';
 
 // Capabilities
 $string['sharing_cart:addinstance'] = 'Add a new Sharing Cart block';
