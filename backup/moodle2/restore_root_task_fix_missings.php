@@ -22,14 +22,26 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/**
- * Remove sharing cart entity, when related file was removed from the system
- * @param $file
- * @throws dml_exception
- */
-function block_sharing_cart_after_file_deleted($file) {
-    global $DB;
+defined('MOODLE_INTERNAL') || die();
 
-    $cleaner = new \block_sharing_cart\files\cleaner($DB, $file);
-    $cleaner->remove_related_sharing_cart_entity();
+require_once __DIR__ . '/restore_fix_missing_questions.php';
+
+/**
+ *  The root task that fixes missings before execution
+ */
+class restore_root_task_fix_missings extends restore_root_task {
+    public function build() {
+        parent::build();
+
+        // inserts a restore_fix_missing_questions step
+        // before restore_create_categories_and_questions
+        $fix_missing_questions = new restore_fix_missing_questions('fix_missing_questions');
+        $fix_missing_questions->set_task($this);
+        foreach ($this->steps as $i => $step) {
+            if ($step instanceof restore_create_categories_and_questions) {
+                array_splice($this->steps, $i, 0, array($fix_missing_questions));
+                break;
+            }
+        }
+    }
 }

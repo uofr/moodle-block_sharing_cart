@@ -22,14 +22,30 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/**
- * Remove sharing cart entity, when related file was removed from the system
- * @param $file
- * @throws dml_exception
- */
-function block_sharing_cart_after_file_deleted($file) {
-    global $DB;
+namespace block_sharing_cart;
 
-    $cleaner = new \block_sharing_cart\files\cleaner($DB, $file);
-    $cleaner->remove_related_sharing_cart_entity();
+defined('MOODLE_INTERNAL') || die();
+
+/**
+ *  Scoped closure
+ */
+class scoped {
+    /** @var callable */
+    private $callback;
+
+    /**
+     *  Constructor
+     *
+     * @param callable $callback
+     */
+    public function __construct(callable $callback) {
+        $this->callback = $callback;
+    }
+
+    /**
+     *  Destructor
+     */
+    public function __destruct() {
+        call_user_func($this->callback);
+    }
 }
