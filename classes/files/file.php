@@ -22,14 +22,52 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/**
- * Remove sharing cart entity, when related file was removed from the system
- * @param $file
- * @throws dml_exception
- */
-function block_sharing_cart_after_file_deleted($file) {
-    global $DB;
+namespace block_sharing_cart\files;
 
-    $cleaner = new \block_sharing_cart\files\cleaner($DB, $file);
-    $cleaner->remove_related_sharing_cart_entity();
+defined('MOODLE_INTERNAL') || die();
+
+
+class file
+{
+    /** @var object|\stored_file */
+    private $file;
+
+    public function __construct($file){
+        $this->file = $file;
+    }
+
+    /**
+     * @return int
+     */
+    public function get_id(): int {
+        return (int)$this->file->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function get_user_id(): int {
+        return (int)$this->file->userid;
+    }
+
+    /**
+     * @return string
+     */
+    public function get_area(): string {
+        return $this->file->filearea ?? '';
+    }
+
+    /**
+     * @return string
+     */
+    public function get_name(): string {
+        return $this->file->filename ?? '';
+    }
+
+    /**
+     * @return bool
+     */
+    public function is_backup_file(): bool {
+        return $this->get_area() === 'backup';
+    }
 }

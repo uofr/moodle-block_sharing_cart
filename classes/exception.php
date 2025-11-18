@@ -22,14 +22,21 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/**
- * Remove sharing cart entity, when related file was removed from the system
- * @param $file
- * @throws dml_exception
- */
-function block_sharing_cart_after_file_deleted($file) {
-    global $DB;
+namespace block_sharing_cart;
 
-    $cleaner = new \block_sharing_cart\files\cleaner($DB, $file);
-    $cleaner->remove_related_sharing_cart_entity();
+defined('MOODLE_INTERNAL') || die();
+
+/**
+ *  Sharing Cart exception
+ */
+class exception extends \moodle_exception {
+    /**
+     *  Constructor
+     *
+     * @param string $errcode The error string ID
+     * @param mixed $a (Optional) Additional parameter
+     */
+    public function __construct(string $errcode, $a = null) {
+        parent::__construct($errcode, 'block_sharing_cart', '', $a);
+    }
 }
