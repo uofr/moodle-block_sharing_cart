@@ -125,3 +125,8 @@ $string['privacy:metadata:sharing_cart_items:sortorder'] = 'The sort order of th
 $string['privacy:metadata:sharing_cart_items:original_course_fullname'] = 'The full name of the original course';
 $string['privacy:metadata:sharing_cart_items:timecreated'] = 'The time this item was created';
 $string['privacy:metadata:sharing_cart_items:timemodified'] = 'The time this item was modified';
+$string['settings:triggerbackupnotifications'] =
+    'Enable Sharing Cart backup notifications';
+
+$string['settings:triggerbackupnotifications_desc'] =
+    'If enabled, Sharing Cart will trigger Moodle events for backup and restore actions, which may generate notifications or emails.';

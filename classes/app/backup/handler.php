@@ -60,12 +60,13 @@ class handler
             $USER->id
         );
 
+    if (get_config('block_sharing_cart', 'triggerbackupnotifications')) {
         backup_course_module::create_by_course_module(
             $record->course,
             $course_module_id,
             $USER->id
         )->trigger();
-
+    }
         return $this->queue_async_backup($backup_controller, $root_item, $settings);
     }
 
@@ -87,12 +88,14 @@ class handler
         );
 
         $task = $this->queue_async_backup($backup_controller, $root_item, $settings);
+if (get_config('block_sharing_cart', 'triggerbackupnotifications')) {
+    backup_section::create_by_section(
+        $course_id,
+        $section_id,
+        $USER->id
+    )->trigger();
+}
 
-        backup_section::create_by_section(
-            $course_id,
-            $section_id,
-            $USER->id
-        )->trigger();
 
         return $task;
     }
