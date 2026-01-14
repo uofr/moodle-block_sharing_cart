@@ -20,7 +20,9 @@ require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
 class handler
 {
     private base_factory $base_factory;
-
+    private function should_trigger_notifications(): bool {
+    return (bool) get_config('block_sharing_cart', 'triggerbackupnotifications');
+}
     public function __construct(base_factory $base_factory)
     {
         $this->base_factory = $base_factory;
@@ -60,11 +62,13 @@ class handler
             $USER->id
         );
 
-        backup_course_module::create_by_course_module(
-            $record->course,
-            $course_module_id,
-            $USER->id
-        )->trigger();
+    if ($this->should_trigger_notifications()) {
+    backup_course_module::create_by_course_module(
+        $record->course,
+        $course_module_id,
+        $USER->id
+    )->trigger();
+}
 
         return $this->queue_async_backup($backup_controller, $root_item, $settings);
     }
@@ -88,11 +92,13 @@ class handler
 
         $task = $this->queue_async_backup($backup_controller, $root_item, $settings);
 
-        backup_section::create_by_section(
-            $course_id,
-            $section_id,
-            $USER->id
-        )->trigger();
+         if ($this->should_trigger_notifications()) {
+    backup_section::create_by_section(
+        $course_id,
+        $section_id,
+        $USER->id
+    )->trigger();
+}
 
         return $task;
     }
