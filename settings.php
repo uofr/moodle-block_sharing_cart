@@ -38,4 +38,13 @@ if ($ADMIN->fulltree) {
             false
         )
     );
+    $settings->add(
+    new admin_setting_configcheckbox(
+        'block_sharing_cart/triggerbackupnotifications',
+        get_string('settings:triggerbackupnotifications', 'block_sharing_cart'),
+        get_string('settings:triggerbackupnotifications_desc', 'block_sharing_cart'),
+        0 // Default OFF
+    )
+);
+
 }
