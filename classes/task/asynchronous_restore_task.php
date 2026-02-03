@@ -68,10 +68,14 @@ class asynchronous_restore_task extends \core\task\adhoc_task
                 $rc->execute_plan();
 
                 $this->after_restore_finished_hook($rc);
-
+                //Joel Dapiawen February 2, 2026 -- customized
                 // Send message to user if enabled.
-                $messageenabled = (bool)get_config('backup', 'backup_async_message_users');
-                if ($messageenabled && $rc->get_status() == \backup::STATUS_FINISHED_OK) {
+                // Check if notifications are enabled globally AND enabled in Sharing Cart settings.
+                $globalmessageenabled = (bool)get_config('backup', 'backup_async_message_users');
+                $sharingcartnotifsenabled = (bool)get_config('block_sharing_cart', 'triggerbackupnotifications');
+
+                // Only send if BOTH are true
+                if ($globalmessageenabled && $sharingcartnotifsenabled && $rc->get_status() == \backup::STATUS_FINISHED_OK) {
                     $asynchelper = new async_helper('restore', $restoreid);
                     $asynchelper->send_message();
                 }
